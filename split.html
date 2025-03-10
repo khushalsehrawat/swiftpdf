@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PDF Split & Merge Tool</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- iceland font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Iceland&display=swap" rel="stylesheet" />
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@500;700&display=swap');
+  </style>
+
+  <style>
+    body {
+      font-family: "Noto Sans JP", sans-serif;
+      background-color: #fef8f8;
+    }
+
+    .navbar {
+      background-color: #dbdbdb;
+      height: 80px;
+      box-shadow: 0 5px 5px rgba(39, 41, 41, 0.336);
+      position: sticky;
+      top: 0;
+      width: 100%;
+      z-index: 1;
+    }
+
+    .navbar-collapse {
+      background-color: rgb(240, 248, 255);
+    }
+
+    #headline {
+      font-family: "Iceland", sans-serif;
+      font-size: 50px;
+      font-weight: 700;
+      color: #333;
+      margin-top: 50px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .lead {
+      max-width: 600px;
+      margin: 0 auto;
+      font-family: "Montserrat Alternates", sans-serif;
+      font-weight: 500;
+      font-style: normal;
+    }
+
+    /* Center the file input container */
+    .file-upload-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    /* Hide default file input */
+    input[type="file"] {
+      opacity: 0;
+      position: absolute;
+      z-index: -1;
+    }
+
+    /* Custom file label button */
+    .custom-file-label {
+      display: inline-block;
+      background-color: #07305c;
+      color: rgb(245, 235, 235);
+      font-family: "Iceland", sans-serif;
+      padding: 12px 24px;
+      border-radius: 8px;
+      cursor: pointer;
+      text-align: center;
+      transition: background-color 0.3s ease;
+      font-size: 25px;
+    }
+
+    .custom-file-label:hover {
+      background-color: #0056b3;
+    }
+
+    .file-label {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .custom-file-label2 {
+      display: inline-block;
+      background-color: #005072c1;
+      color: rgb(245, 235, 235);
+      font-family: "Iceland", sans-serif;
+      padding: 12px 24px;
+      border-radius: 8px;
+      cursor: pointer;
+      text-align: center;
+      transition: background-color 0.3s ease, transform 0.3s;
+      font-size: 25px;
+    }
+
+    /* Enlarge button on hover */
+    .custom-file-label2:hover,
+    .btn-success:hover,
+    .btn-primary:hover {
+      transform: scale(1.2);
+    }
+
+    /* Style for each preview card */
+    .preview-card {
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 10px;
+      width: 220px;
+      margin: 10px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Use an object element for preview with fallback text */
+    .preview-card object {
+      width: 100%;
+      height: 300px;
+      margin-bottom: 10px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- NAV BAR -->
+  <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">
+        <img src="logo.png" width="150px" alt="" style="border-radius: 18px;" />
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active px-3" aria-current="page" href="index.html">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link px-3" href="index.html#card">Tools</a>
+          </li>
+          <li class="nav-item" id="ca">
+            <a class="nav-link px-3" href="index.html#anonther" style="cursor: pointer;">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link px-3" style="cursor: pointer;" href="contact.html">Contact Us</a>
+          </li>
+        </ul>
+        <button class="btn btn-primary mx-4" type="submit">Get Started</button>
+        <a href="#plan-anchor">
+          <button id="free" class="btn btn-warning" type="submit">Try for Free</button>
+        </a>
+      </div>
+    </div>
+  </nav>
+  <!-- NAV BAR END -->
+
+  <!-- Main Content Header -->
+  <div class="container-fluid" style="text-align: center; margin-top: 50px; margin-bottom: 40px;">
+    <h1 id="headline" style="font-size: 50px; font-weight: 700; color: #333; margin-top: 50px; margin-bottom: 20px;">
+      Split PDF File</h1>
+    <p class="lead">
+      Split a PDF file into individual pages. <br>
+      Select a PDF file and click the "Split PDF" button to view each page. Hover over the download buttons to enlarge them,
+      and click on the preview or the "Preview" button for a larger view.
+    </p>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6">
+      <div class="container">
+        <!-- Load Typed.js for animated headline -->
+        <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
+        <script>
+          var typed = new Typed("#headline", {
+            strings: ["Split PDF File"],
+            typeSpeed: 45,
+            showCursor: false,
+          });
+        </script>
+      </div>
+    </div>
+  </div>
+
+  <!-- File Upload Container -->
+  <div class="file-upload-container">
+    <label class="file-label">Select a PDF file</label>
+    <label for="pdfFile" class="custom-file-label">Choose File</label>
+    <input type="file" id="pdfFile" class="form-control-file" accept="application/pdf">
+  </div>
+
+  <!-- Splitting Section -->
+  <div class="container my-5">
+    <button id="splitBtn" class="btn btn-primary custom-file-label2">Split PDF</button>
+    <div id="downloadSection" class="mt-4" style="display:none;">
+      <h3>Download Split Pages:</h3>
+      <div id="downloadLinks" class="d-flex flex-wrap justify-content-center gap-3"></div>
+    </div>
+  </div>
+
+  <!-- Merging Section -->
+  <div class="container my-5" id="mergeSection">
+    <h3>Merge Selected Pages:</h3>
+    <p class="lead">
+      Enter page numbers (comma-separated, e.g., 1,3,5) to merge those pages from the uploaded PDF into a new PDF.
+    </p>
+    <div class="mb-3" style="max-width: 400px; margin: auto;">
+      <input type="text" id="mergePagesInput" class="form-control" placeholder="e.g. 1,3,5">
+    </div>
+    <button id="mergePagesBtn" class="btn btn-primary custom-file-label2">Merge Selected Pages</button>
+    <div id="mergeDownloadSection" class="mt-4" style="display:none;">
+      <a id="mergeDownloadLink" href="#" class="btn btn-success" download="merged_pages.pdf">Download Merged PDF</a>
+    </div>
+  </div>
+
+  <!-- Modal for Large Preview (fullscreen) -->
+  <div class="modal fade" id="previewModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Page Preview</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <object id="modalObject" data="" type="application/pdf" style="width: 100%; height: 90vh;">
+            Your browser does not support PDF viewing. Please download the PDF.
+          </object>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- pdf-lib Library -->
+  <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+
+  <!-- JavaScript Code for Splitting and Merging -->
+  <script>
+    // Global variable to store the uploaded PDF's ArrayBuffer
+    let originalPDFArrayBuffer = null;
+
+    // Elements
+    const splitBtn = document.getElementById('splitBtn');
+    const pdfFileInput = document.getElementById('pdfFile');
+    const downloadSection = document.getElementById('downloadSection');
+    const downloadLinksContainer = document.getElementById('downloadLinks');
+    const mergePagesBtn = document.getElementById('mergePagesBtn');
+    const mergeDownloadSection = document.getElementById('mergeDownloadSection');
+    const mergeDownloadLink = document.getElementById('mergeDownloadLink');
+    const mergePagesInput = document.getElementById('mergePagesInput');
+    const modalObject = document.getElementById('modalObject');
+    const previewModalEl = document.getElementById('previewModal');
+    let previewModal = new bootstrap.Modal(previewModalEl);
+
+    // SPLITTING FUNCTIONALITY
+    splitBtn.addEventListener('click', async () => {
+      const file = pdfFileInput.files[0];
+      if (!file) {
+        alert('Please select a PDF file.');
+        return;
+      }
+
+      // Read and store the file ArrayBuffer for later use
+      const fileArrayBuffer = await file.arrayBuffer();
+      originalPDFArrayBuffer = fileArrayBuffer;
+
+      // Load the PDF document using pdf-lib
+      const pdfDoc = await PDFLib.PDFDocument.load(fileArrayBuffer);
+      const totalPages = pdfDoc.getPageCount();
+
+      // Clear any previous split results
+      downloadLinksContainer.innerHTML = '';
+
+      // Process each page: create a new PDF, generate a Blob URL, and create a preview card.
+      for (let i = 0; i < totalPages; i++) {
+        const newPdfDoc = await PDFLib.PDFDocument.create();
+        const [copiedPage] = await newPdfDoc.copyPages(pdfDoc, [i]);
+        newPdfDoc.addPage(copiedPage);
+
+        const pdfBytes = await newPdfDoc.save();
+        const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+        const url = URL.createObjectURL(blob);
+
+        // Create preview card
+        const card = document.createElement('div');
+        card.className = 'preview-card';
+
+        // Create an object element for PDF preview with fallback text.
+        const preview = document.createElement('object');
+        preview.data = url;
+        preview.type = 'application/pdf';
+        preview.width = "100%";
+        preview.height = "300";
+        preview.innerHTML = "Your browser does not support PDF preview. Please download the file.";
+
+        // Create a separate "Preview" button.
+        const previewButton = document.createElement('button');
+        previewButton.className = 'btn btn-info mb-2';
+        previewButton.textContent = 'Preview Page ' + (i + 1);
+        previewButton.addEventListener('click', () => {
+          modalObject.data = url;
+          previewModal.show();
+        });
+
+        // Create the download button with a 5-second delay.
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `page_${i + 1}.pdf`;
+        link.textContent = `Download Page ${i + 1}`;
+        link.className = 'btn btn-success';
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          link.style.display = 'none';
+          const tempMsg = document.createElement('div');
+          tempMsg.className = 'alert alert-info mt-2';
+          tempMsg.textContent = 'Preparing download... Please wait 5 seconds.';
+          card.appendChild(tempMsg);
+          setTimeout(() => {
+            tempMsg.remove();
+            const tempLink = document.createElement('a');
+            tempLink.href = url;
+            tempLink.download = link.download;
+            document.body.appendChild(tempLink);
+            tempLink.click();
+            document.body.removeChild(tempLink);
+            link.style.display = 'inline-block';
+          }, 5000);
+        });
+
+        // Append elements to the card.
+        card.appendChild(preview);
+        card.appendChild(previewButton);
+        card.appendChild(link);
+        downloadLinksContainer.appendChild(card);
+      }
+      downloadSection.style.display = 'block';
+    });
+
+    // MERGING FUNCTIONALITY
+    mergePagesBtn.addEventListener('click', async () => {
+      const file = pdfFileInput.files[0];
+      if (!file) {
+        alert('Please select a PDF file.');
+        return;
+      }
+      // Use stored ArrayBuffer if available; otherwise, read from file.
+      let arrayBuffer = originalPDFArrayBuffer;
+      if (!arrayBuffer) {
+        arrayBuffer = await file.arrayBuffer();
+        originalPDFArrayBuffer = arrayBuffer;
+      }
+      const pdfDoc = await PDFLib.PDFDocument.load(arrayBuffer);
+      const totalPages = pdfDoc.getPageCount();
+
+      // Parse and validate the page numbers entered by the user.
+      const pagesInput = mergePagesInput.value;
+      const pagesArr = pagesInput.split(',')
+        .map(s => parseInt(s.trim()))
+        .filter(n => !isNaN(n));
+
+      if (pagesArr.length === 0) {
+        alert('Please enter valid page numbers (comma-separated).');
+        return;
+      }
+      const invalidPages = pagesArr.filter(num => num < 1 || num > totalPages);
+      if (invalidPages.length > 0) {
+        alert(`Page numbers out of range: ${invalidPages.join(', ')}`);
+        return;
+      }
+
+      // Create a new PDF document and copy each requested page.
+      const mergedPdfDoc = await PDFLib.PDFDocument.create();
+      for (const pageNum of pagesArr) {
+        const [copiedPage] = await mergedPdfDoc.copyPages(pdfDoc, [pageNum - 1]);
+        mergedPdfDoc.addPage(copiedPage);
+      }
+      const mergedPdfBytes = await mergedPdfDoc.save();
+      const blob = new Blob([mergedPdfBytes], { type: 'application/pdf' });
+      const url = URL.createObjectURL(blob);
+      mergeDownloadLink.href = url;
+      mergeDownloadSection.style.display = 'block';
+    });
+
+    // Download delay for merged PDF
+    mergeDownloadLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      mergeDownloadLink.style.display = 'none';
+      const tempMsg = document.createElement('div');
+      tempMsg.className = 'alert alert-info mt-2';
+      tempMsg.textContent = 'Preparing download... Please wait 5 seconds.';
+      mergeDownloadSection.appendChild(tempMsg);
+      setTimeout(() => {
+        tempMsg.remove();
+        const tempLink = document.createElement('a');
+        tempLink.href = mergeDownloadLink.href;
+        tempLink.download = mergeDownloadLink.download;
+        document.body.appendChild(tempLink);
+        tempLink.click();
+        document.body.removeChild(tempLink);
+        mergeDownloadLink.style.display = 'inline-block';
+      }, 5000);
+    });
+  </script>
+
+  <!-- Optional Bootstrap JS dependencies -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>
