@@ -56,7 +56,7 @@ All features are implemented as static pages with client‑side JavaScript. PDFs
 ```mermaid
 flowchart LR
   U[User] -->|Drag/Select PDFs| B[Browser]
-  B -->|pdf-lib| L[pdf-lib (CDN)]
+  B -- "pdf-lib" --> L["pdf-lib (CDN)"]
   B -->|File API| F[Local Files]
   B -->|Blob URL| D[Download]
   subgraph UI
