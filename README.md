@@ -1,187 +1,261 @@
-🌐 SwiftPDF – Project Synopsis
+<div align="center">
 
-“Swiftly Handle PDFs with Ease and Zero Cost! Enjoy Seamless PDF Editing and Conversion Anytime, Anywhere.”
-– SwiftPDF Mission Statement
+  <img src="logo.png" alt="SwiftPDF Logo" width="200" style="border-radius:16px" />
 
-📘 Overview
+  <h1>SwiftPDF — Fast, Private, In‑Browser PDF Tools</h1>
+  <p>
+    Merge, split, preview, and lightly protect PDFs — instantly, in your browser.<br/>
+    No installs. No accounts. Your files never leave your device.
+  </p>
 
-SwiftPDF is a modern, browser-based PDF toolkit designed for seamless editing, merging, splitting, and protection — all without requiring installation or server interaction.
-Its vision is to redefine PDF management through privacy-first client-side technology, ensuring that user data never leaves the device.
+  <p>
+    <a href="index.html"><b>Open App (local)</b></a> ·
+    <a href="https://www.thevb24.com"><b>Website</b></a>
+  </p>
 
-This project demonstrates how advanced PDF operations can be achieved using pure front-end technologies, combining simplicity, performance, and security.
+  <sub>Built with HTML, CSS, JavaScript, Bootstrap, pdf-lib, and Typed.js</sub>
+</div>
 
-🎯 Objectives (Why SwiftPDF Exists)
-Objective	Explanation
-Browser-Based Toolkit	Runs entirely in the browser — no installation or backend dependency.
-Privacy by Design	Files are processed locally in memory, ensuring total data security.
-User-Friendly	Responsive and intuitive interface powered by Bootstrap & modern JavaScript.
-Portability	Works on any static host or even locally (offline-ready).
-Extensibility	Easily scalable to include compression, encryption, digital signatures, and more.
+---
 
-Core Vision: Make professional-grade PDF tools accessible to everyone — instantly, privately, and for free.
+## Overview
 
-🧩 Introduction
+SwiftPDF is a lightweight, privacy‑first web app for everyday PDF tasks. All processing happens on the client side using modern browser APIs and the pdf-lib library. This keeps things fast, private, and portable — you can host it anywhere that serves static files, or even run it offline once assets are cached.
 
-SwiftPDF simplifies PDF handling by offering an elegant, self-contained web application.
-It eliminates the need for bulky desktop software and risky online upload tools.
-Users can open, edit, and download PDFs instantly with a clean, animation-rich interface designed to feel both premium and minimal.
+### What You Can Do Right Now
+- Merge multiple PDFs into one (`merge.html`).
+- Split a PDF into individual pages with live previews and per‑page downloads (`split.html`).
+- Merge selected pages (e.g., 1,3,5) from a PDF into a new PDF (`split.html`).
+- Apply a visual watermark as a “protect” step across all pages (`protect.html`).
+- Use a responsive, polished UI with Bootstrap and custom styles (`style.css`).
+- Reach out via a Web3Forms‑powered contact form (`contact.html`).
 
-The application is powered by a client-side architecture that uses JavaScript and the pdf-lib library to manipulate PDFs directly within the browser’s memory.
-This ensures zero data transmission, making SwiftPDF ideal for sensitive document workflows.
+### Coming Soon (Already scaffolded)
+- Compress PDF
+- Word to PDF
+- PowerPoint to PDF
+- Sign PDF (formal signing and PKI)
 
-🚀 Key Features
-Feature	Description
-Merge PDFs	Combine multiple documents into one seamlessly.
-Split PDFs	Separate pages into individual files or reorganize them.
-Protect PDFs	Add watermark-based visual protection (no password upload).
-Responsive UI	Built with Bootstrap 5 and custom CSS for fluid performance.
-Offline-Capable	Once loaded, works without internet using cached assets.
-pie showData
-    title SwiftPDF Toolset
-    "Available (Merge PDFs)" : 1
-    "Available (Split PDFs)" : 1
-    "Available (Protect PDF)" : 1
-    "Planned (Compress PDF)" : 1
-    "Planned (Word → PDF)" : 1
-    "Planned (PPT → PDF)" : 1
-    "Planned (Digital Signatures)" : 1
+See the placeholders and holding pages: `maintainance.html` and `tool.html`.
 
+---
 
-Figure: Current and Planned Toolset – showing growth potential.
+## Objectives
+- Zero‑setup PDF utilities that run fully in the browser.
+- Privacy by design: keep documents local to the user’s machine.
+- Simple, fast, and accessible UX suitable for everyone.
+- Portable deployment: static hosting, CDN, or local file system.
+- Clear roadmap for more advanced document workflows.
 
-⚙️ Technologies Used
-Technology	Purpose
-HTML5 & CSS3	Layout, responsiveness, and structure.
-Bootstrap 5	Grid system, components, and consistent design system.
-JavaScript (ES6)	Implements all logic and dynamic PDF operations.
-pdf-lib	Core client-side engine for reading, merging, and writing PDFs.
-jQuery	Minor DOM and event handling for UI convenience.
-Typed.js	Homepage text animation effects.
-Google Fonts	Adds typographic elegance and visual identity.
-Web3Forms	Handles contact form submission securely without backend.
-graph TD
-  A[HTML5 + CSS3] --> SwiftPDF
-  B[Bootstrap 5] --> SwiftPDF
-  C[JavaScript ES6] --> SwiftPDF
-  D[pdf-lib] --> SwiftPDF
-  E[jQuery] --> SwiftPDF
-  F[Typed.js] --> SwiftPDF
-  G[Google Fonts] --> SwiftPDF
-  H[Web3Forms] --> SwiftPDF
+---
 
+## Architecture
 
-Every dependency was chosen to keep the app lightweight, scalable, and fully front-end driven.
+All features are implemented as static pages with client‑side JavaScript. PDFs are handled in memory using pdf‑lib and delivered back to the user with Blob URLs.
 
-🧠 Architecture & Workflow
-
-SwiftPDF uses a fully static, client-side architecture — meaning all logic executes within the browser.
-There is no backend or API involved in PDF processing.
-
-📊 System Diagram
+```mermaid
 flowchart LR
-    subgraph Client_Browser["Client Browser"]
-      I["index.html (Landing Page)"]
-      M["merge.html (Merge Tool)"]
-      S["split.html (Split Tool)"]
-      P["protect.html (Watermark Tool)"]
-      C["contact.html (Contact Form)"]
-    end
-    U((User)) -->|Selects PDFs| M
-    U -->|Opens App| I
-    I --> M & I --> S & I --> P & I --> C
-    M ..> L[pdf-lib Library]
-    S ..> L[pdf-lib Library]
-    P ..> L[pdf-lib Library]
-    M -->|Blob URL| D[(Download File)]
-    S -->|Blob URL| D[(Download File)]
-    P -->|Blob URL| D[(Download File)]
+  U[User] -->|Drag/Select PDFs| B[Browser]
+  B -- "pdf-lib" --> L["pdf-lib (CDN)"]
+  B -->|File API| F[Local Files]
+  B -->|Blob URL| D[Download]
+  subgraph UI
+    I[index.html]
+    M[merge.html]
+    S[split.html]
+    P[protect.html]
+    C[contact.html]
+  end
+  U --> I
+  I --> M
+  I --> S
+  I --> P
+  I --> C
+```
 
-🧭 Sequence Flow (Behind the Scenes)
+Key points:
+- 100% client‑side — no server needed for current tools.
+- `pdf-lib` provides page copying, merging, and drawing (for watermarks).
+- Downloads are created via `Blob` + `URL.createObjectURL` for instant saves.
+- Previews use the `<object>` tag and a full‑screen Bootstrap modal.
+
+---
+
+## Tech Stack
+- HTML5, CSS3, JavaScript (vanilla)
+- Bootstrap 5 (layout, responsive components)
+- pdf-lib (client‑side PDF manipulation)
+- Typed.js (animated headlines)
+- jQuery (small DOM conveniences in some views)
+- Google Fonts (Iceland, Montserrat Alternates, Caveat, Indie Flower, Alegreya)
+- Web3Forms (contact form backend as a service)
+
+CDN usage keeps the app lightweight and easy to host. For offline operation, you can vendor these assets locally.
+
+---
+
+## File Map
+- `index.html` — Landing page, tool cards, hero animation (Typed.js), footer.
+- `merge.html` — Multi‑file merge with `pdf-lib`. Counts selected files and produces a single `merged.pdf`.
+- `split.html` — Split into per‑page PDFs with live previews, delayed downloads, and “merge selected pages” tool.
+- `protect.html` — Visual watermark across all pages using `pdf-lib.drawText` (note: this is not PDF encryption).
+- `maintainance.html` — Holding page for in‑progress tools.
+- `tool.html` — Temporary “coming soon” notice.
+- `contact.html` — Web3Forms contact form with background map and translucent panel.
+- `price.html` — Simple three‑tier pricing UI (Basic / Standard / Premium).
+- `style.css` — Global styles for card grid, ribbons, testimonial headings, responsive tweaks.
+- Images/SVGs — Branding and UI illustrations (e.g., `logo.png`, `merge.jpg`, `split.jpg`, `Sprinkle1.svg`).
+
+---
+
+## How It Works (Under the Hood)
+
+### Merge PDFs (`merge.html`)
+- Uses `PDFDocument.create()` to build a new document.
+- For each uploaded file: `PDFDocument.load()` + `copyPages()` to append pages.
+- Saves as bytes, creates a `Blob`, then exposes a download link.
+
+### Split + Selective Merge (`split.html`)
+- Loads a single PDF and iterates `getPageCount()`.
+- For each page: creates a new `PDFDocument`, copies the page, and renders a preview using an `<object>`.
+- Adds a small 5‑second “preparing” delay before download for UX feedback.
+- Accepts comma‑separated page numbers to create a selective merge into a new PDF.
+
+### Protect (Watermark) (`protect.html`)
+- Loads the PDF and draws a diagonal text watermark with opacity on each page using `drawText()`.
+- Note: This is a visual protection technique — not cryptographic password protection.
+
+```mermaid
 sequenceDiagram
-    participant U as User
-    participant V as SwiftPDF Page (Tool)
-    participant L as pdf-lib Library
-    autonumber
-    U ->> V: Select PDF file(s)
-    V ->> L: Load and parse data in memory
-    V ->> L: Apply chosen operation (merge/split/watermark)
-    L -->> V: Return processed bytes
-    V ->> V: Generate Blob & download link
-    V -->> U: Prompt to download new PDF
+  autonumber
+  participant U as User
+  participant V as View (merge/split/protect)
+  participant L as pdf-lib
+  U->>V: Select file(s)
+  V->>L: load(ArrayBuffer)
+  V->>L: copyPages()/drawText()
+  L-->>V: PDF bytes
+  V->>V: new Blob + URL.createObjectURL
+  V-->>U: Download link
+```
 
+---
 
-All processing happens instantly within the user’s browser using Blob URLs — ensuring speed, privacy, and independence.
+## Getting Started
 
-⚠️ Limitations & Design Trade-offs
-Limitation	Description
-No True Encryption	Watermarking provides visible deterrence but not password protection.
-Browser Memory Constraints	Large PDFs may slow down or fail on low-memory devices.
-PDF-Only Support	Office conversions (DOCX, PPTX) are planned for future updates.
-Feature Placeholders	Compress and Sign tools marked as “Coming Soon”.
-CDN Dependency	Requires one-time internet load for external scripts before offline use.
+Quickest way:
+1) Double‑click `index.html` to open in your browser.
+2) Internet connection is required the first time (CDN assets: Bootstrap, pdf‑lib, Typed.js).
+3) Use the tool cards to open Merge, Split, or Protect pages.
 
-These constraints are conscious design decisions prioritizing privacy, simplicity, and lightweight performance.
+Developer‑friendly way (recommended):
+- Serve the folder with a static server to avoid any browser URL quirks:
+  - Node: `npx serve .` or `npx http-server .`
+  - Python: `python -m http.server 8000`
+  - VS Code: Live Server extension
+  - Any static host: GitHub Pages, Netlify, Vercel
 
-🧩 Conclusion
+---
 
-SwiftPDF showcases the true potential of front-end engineering — building complex, secure document tools without server reliance.
-It offers an elegant, private, and fast alternative to online converters or bulky desktop software.
+## Usage Guide
 
-The project successfully:
+### Merge
+- Open `merge.html`.
+- Click “Choose Files” and select two or more PDFs.
+- Click “Merge PDFs” and then “Download Merged PDF”.
 
-Proves client-only PDF editing is feasible.
+### Split
+- Open `split.html`.
+- Choose a single PDF, click “Split PDF”.
+- Preview each page card. Click “Download Page X” to save that page.
+- To merge specific pages: enter numbers like `1,3,5` and click “Merge Selected Pages”.
 
-Demonstrates practical use of open-source libraries like pdf-lib.
+### Protect (Watermark)
+- Open `protect.html`.
+- Choose a PDF and enter a password string (used as watermark text).
+- Click “Protect PDF” and download the watermarked file.
+- Note: This does not lock the file with a password; it applies a visible watermark only.
 
-Provides a scalable framework for future extensions.
+---
 
-SwiftPDF stands as a benchmark project for demonstrating modern, privacy-first web applications.
+## Why SwiftPDF Stands Out
+- Client‑side privacy: files never leave your device.
+- Zero setup: open and go; works anywhere static files can be served.
+- Fast feedback: instant previews and downloads.
+- Clean UX: polished cards, responsive layout, and smooth animations.
+- Extensible architecture: easy to add tools as separate pages.
 
-🌱 Future Scope
-Feature	Description
-True PDF Encryption	Add AES-128/256 password-based protection.
-Compression Engine	Offer lossy/lossless PDF compression presets.
-Page Reordering UI	Drag & drop interface for rearranging and deleting pages.
-Unified Dashboard	Merge all tools into one multi-functional workspace.
-Digital Signatures	Add handwritten and PKI certificate-based signing.
-Format Conversions	PDF ↔ Image, DOCX → PDF, PPTX → PDF.
-Offline PWA Mode	Full Progressive Web App installation & offline use.
-Accessibility + i18n	Add screen reader, keyboard navigation, and multi-language support.
-gantt
-    title SwiftPDF Roadmap
-    dateFormat YYYY-MM-DD
-    section Core
-    Compression Tool :done, 2025-01-01, 2025-03-30
-    Encryption Module :active, 2025-04-01, 2025-06-30
-    section Advanced
-    Page Reordering UI :des3, 2025-07-01, 2025-08-30
-    Unified Dashboard :des4, 2025-09-01, 2025-12-30
+```mermaid
+pie title Status of Tools
+  "Available (Merge)" : 1
+  "Available (Split)" : 1
+  "Available (Protect/Watermark)" : 1
+  "Planned (Compress)" : 1
+  "Planned (Word→PDF)" : 1
+  "Planned (PPT→PDF)" : 1
+  "Planned (Sign)" : 1
+```
 
+---
 
-Figure: Strategic Roadmap — showing SwiftPDF’s path toward a full-featured, professional-grade suite.
+## Security, Privacy, and Limits
+- All current operations run in the browser; no server uploads.
+- Watermark “protect” is not encryption; advanced password protection requires a different approach (see Roadmap).
+- Very large PDFs depend on browser memory limits.
+- CDN availability is required unless you vendor libraries locally.
 
-📚 References
+---
 
-SwiftPDF GitHub Repository: Khushal Sehrawat (2025)
+## Roadmap / Future Scope
+- True PDF password protection and permissions (owner/user passwords, AES‑128/256).
+- Lossy and lossless compression levels with quality presets.
+- Reorder pages with drag‑and‑drop; rotate and delete pages inline.
+- Combine tools into a single “workspace” with thumbnails.
+- Drawn and certificate‑based signatures (PKI).
+- PDF to image (PNG/JPEG) and image to PDF.
+- Office conversions (DOCX/PPTX to PDF) via a safe API or on‑prem converter.
+- PWA: offline support and installable app shell.
+- i18n and accessibility improvements.
 
-Official Website: swiftpdf.vercel.app
+---
 
-pdf-lib Library: Hopding/pdf-lib.js
+## Contributing
+Contributions are welcome! Here’s how to help:
+- Open issues for bugs, ideas, and UI/UX suggestions.
+- Fork and create a feature branch from `main`.
+- Keep pages self‑contained (one tool per page) and re‑use styles in `style.css`.
+- Prefer CDN for quick demos; add a note if a tool needs local bundling.
+- Submit a focused PR describing the change and screenshots for UI work.
 
-Bootstrap 5: getbootstrap.com
+Suggested starter tasks:
+- Implement Compress (client‑side first pass).
+- Add drag‑and‑drop for file inputs.
+- Add a page reordering UI for merges.
+- Vendor CDN assets behind a build flag for offline use.
 
-Typed.js: mattboldt.com
+---
 
-Web3Forms Service: web3forms.com
+## Deployment
+- Static hosting works out of the box (no server code needed).
+- Recommended: GitHub Pages, Netlify, Vercel, Cloudflare Pages, or any S3/CDN.
+- Set a custom domain and enable HTTPS.
 
-✍️ Author & Acknowledgment
+---
 
-Developed & Documented by:
-Khushal Sehrawat
-Full-Stack Developer | Java + Spring Boot | UI/UX Enthusiast
-📍 Delhi, India
-🔗 GitHub: khushalsehrawat
+## Acknowledgements
+- [pdf-lib](https://pdf-lib.js.org/) — stellar client‑side PDF toolkit.
+- [Bootstrap](https://getbootstrap.com/) — responsive UI framework.
+- [Typed.js](https://mattboldt.com/demos/typed-js/) — typewriter effect.
+- [Web3Forms](https://web3forms.com/) — backend‑as‑a‑service for the contact form.
 
-🔗 Portfolio: thevb24.com
+---
 
-“SwiftPDF is more than a tool — it’s a statement of what’s possible with pure front-end ingenuity.”
+## Notes
+- License: No explicit license file present. If you plan to open‑source, add a `LICENSE` file (e.g., MIT). Otherwise, keep it proprietary.
+- SEO: `index.html` includes `canonical` and meta tags; expand these as needed.
+- Branding: Images and SVGs are local; optimize for web where possible.
+
+---
+
+## Conclusion
+SwiftPDF delivers a fast, private, and elegant experience for common PDF tasks — all in the browser. The current capabilities cover the essentials (merge, split, watermark protect) with a clear path toward advanced tooling like compression, password protection, and signing. It’s easy to run, easy to host, and easy to extend.
