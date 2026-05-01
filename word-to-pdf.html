@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Word to PDF</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Iceland font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Iceland&display=swap" rel="stylesheet" />
+
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@500;700&display=swap");
+
+    body {
+      font-family: "Noto Sans JP", sans-serif;
+      background-color: #fef8f8;
+    }
+
+    .navbar {
+      background-color: #dbdbdb;
+      height: 80px;
+      box-shadow: 0 5px 5px rgba(39, 41, 41, 0.336);
+      position: sticky;
+      top: 0;
+      width: 100%;
+      z-index: 1;
+    }
+
+    .navbar-collapse {
+      background-color: rgb(240, 248, 255);
+    }
+
+    #headline {
+      font-family: "Iceland", sans-serif;
+      font-size: 50px;
+      font-weight: 700;
+      color: #333;
+      margin-top: 50px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .lead {
+      max-width: 600px;
+      margin: 0 auto;
+      font-family: "Montserrat Alternates", sans-serif;
+      font-weight: 500;
+      font-style: normal;
+    }
+
+    .file-upload-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    input[type="file"] {
+      opacity: 0;
+      position: absolute;
+      z-index: -1;
+    }
+
+    .custom-file-label {
+      display: inline-block;
+      background-color: #07305c;
+      color: rgb(245, 235, 235);
+      font-family: "Iceland", sans-serif;
+      padding: 12px 24px;
+      border-radius: 8px;
+      cursor: pointer;
+      text-align: center;
+      transition: background-color 0.3s ease;
+      font-size: 25px;
+    }
+
+    .custom-file-label:hover {
+      background-color: #0056b3;
+    }
+
+    .file-label {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .custom-file-label2 {
+      display: inline-block;
+      background-color: #005072c1;
+      color: rgb(245, 235, 235);
+      font-family: "Iceland", sans-serif;
+      padding: 12px 24px;
+      border-radius: 8px;
+      cursor: pointer;
+      text-align: center;
+      transition: background-color 0.3s ease, transform 0.3s;
+      font-size: 25px;
+    }
+
+    .custom-file-label2:hover,
+    .btn-success:hover,
+    .btn-primary:hover {
+      transform: scale(1.2);
+    }
+
+    .result-box {
+      max-width: 560px;
+      margin: 20px auto 0;
+      font-family: "Montserrat Alternates", sans-serif;
+    }
+
+    .preview-object {
+      width: 100%;
+      height: 90vh;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- NAV BAR -->
+  <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">
+        <img src="logo.png" width="150px" alt="" style="border-radius: 18px;" />
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active px-3" aria-current="page" href="index.html">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link px-3" href="index.html#card">Tools</a>
+          </li>
+          <li class="nav-item" id="ca">
+            <a class="nav-link px-3" href="index.html#anonther" style="cursor: pointer;">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link px-3" style="cursor: pointer;" href="contact.html">Contact Us</a>
+          </li>
+        </ul>
+        <button class="btn btn-primary mx-4" type="submit">Get Started</button>
+        <a href="#plan-anchor">
+          <button id="free" class="btn btn-warning" type="submit">Try for Free</button>
+        </a>
+      </div>
+    </div>
+  </nav>
+  <!-- NAV BAR END -->
+
+  <!-- Main Content Header -->
+  <div class="container-fluid" style="text-align: center; margin-top: 50px; margin-bottom: 40px;">
+    <h1 id="headline">Word to PDF</h1>
+    <p class="lead">
+      Convert Word documents to PDF in your browser. <br>
+      Select a DOCX file, preview the extracted content, and download it as a PDF.
+    </p>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6">
+      <div class="container">
+        <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
+        <script>
+          var typed = new Typed("#headline", {
+            strings: ["Word to PDF"],
+            typeSpeed: 45,
+            showCursor: false,
+          });
+        </script>
+      </div>
+    </div>
+  </div>
+
+  <!-- File Upload Container -->
+  <div class="file-upload-container">
+    <label class="file-label">Select a Word file</label>
+    <label for="wordFile" class="custom-file-label">Choose File</label>
+    <input type="file" id="wordFile" class="form-control-file"
+      accept=".docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document" />
+    <p id="fileName" style="margin-top:10px; font-size:18px; font-weight:500;"></p>
+  </div>
+
+  <!-- Word to PDF Section -->
+  <div class="container my-5" id="wordSection">
+    <h3>Convert Word File:</h3>
+    <p class="lead">
+      DOCX files are converted locally. Basic text, headings, lists, and tables are supported.
+    </p>
+    <button id="convertBtn" class="btn btn-primary custom-file-label2 mt-4">Convert to PDF</button>
+    <div id="statusMessage" class="result-box"></div>
+    <div id="downloadSection" class="mt-4" style="display: none; flex-wrap: wrap; justify-content: center; gap: 1rem;">
+      <button id="previewBtn" class="btn btn-info">Preview PDF</button>
+      <a id="downloadLink" href="#" class="btn btn-success" download="word-document.pdf">Download PDF</a>
+    </div>
+  </div>
+
+  <!-- Modal for PDF Preview -->
+  <div class="modal fade" id="previewModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">PDF Preview</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <object id="pdfPreviewObject" class="preview-object" data="" type="application/pdf">
+            Your browser does not support PDF preview. Please download the PDF.
+          </object>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- mammoth.js and jsPDF libraries -->
+  <script src="https://unpkg.com/mammoth/mammoth.browser.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <!-- JavaScript Code for Word to PDF -->
+  <script>
+    const convertBtn = document.getElementById("convertBtn");
+    const wordFileInput = document.getElementById("wordFile");
+    const fileName = document.getElementById("fileName");
+    const statusMessage = document.getElementById("statusMessage");
+    const downloadSection = document.getElementById("downloadSection");
+    const previewBtn = document.getElementById("previewBtn");
+    const downloadLink = document.getElementById("downloadLink");
+    const pdfPreviewObject = document.getElementById("pdfPreviewObject");
+    const previewModal = new bootstrap.Modal(document.getElementById("previewModal"));
+
+    let pdfUrl = "";
+
+    function formatFileSize(bytes) {
+      if (bytes < 1024 * 1024) {
+        return (bytes / 1024).toFixed(1) + " KB";
+      }
+      return (bytes / (1024 * 1024)).toFixed(2) + " MB";
+    }
+
+    function cleanText(text) {
+      return text
+        .replace(/\r/g, "")
+        .replace(/\n{3,}/g, "\n\n")
+        .trim();
+    }
+
+    function drawWrappedText(doc, text) {
+      const pageWidth = doc.internal.pageSize.getWidth();
+      const pageHeight = doc.internal.pageSize.getHeight();
+      const margin = 45;
+      const lineHeight = 16;
+      let y = margin;
+
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(12);
+
+      const paragraphs = text.split(/\n\s*\n/);
+      paragraphs.forEach((paragraph) => {
+        const lines = doc.splitTextToSize(paragraph.trim(), pageWidth - margin * 2);
+        lines.forEach((line) => {
+          if (y > pageHeight - margin) {
+            doc.addPage();
+            y = margin;
+          }
+          doc.text(line, margin, y);
+          y += lineHeight;
+        });
+        y += lineHeight / 2;
+      });
+    }
+
+    wordFileInput.addEventListener("change", () => {
+      const file = wordFileInput.files[0];
+      fileName.textContent = file ? file.name + " (" + formatFileSize(file.size) + ")" : "";
+      statusMessage.textContent = "";
+      downloadSection.style.display = "none";
+      pdfPreviewObject.data = "";
+      if (pdfUrl) {
+        URL.revokeObjectURL(pdfUrl);
+        pdfUrl = "";
+      }
+    });
+
+    convertBtn.addEventListener("click", async () => {
+      const file = wordFileInput.files[0];
+      if (!file) {
+        alert("Please select a DOCX file.");
+        return;
+      }
+
+      if (!file.name.toLowerCase().endsWith(".docx")) {
+        alert("Please select a .docx Word file.");
+        return;
+      }
+
+      convertBtn.disabled = true;
+      downloadSection.style.display = "none";
+      pdfPreviewObject.data = "";
+      statusMessage.className = "result-box alert alert-info";
+      statusMessage.textContent = "Converting Word document... Please wait.";
+
+      try {
+        const arrayBuffer = await file.arrayBuffer();
+        const textResult = await mammoth.extractRawText({ arrayBuffer: arrayBuffer });
+        const extractedText = cleanText(textResult.value);
+
+        if (!extractedText) {
+          alert("No readable text was found in this Word file.");
+          statusMessage.className = "result-box alert alert-warning";
+          statusMessage.textContent = "No readable text was found in this Word file.";
+          return;
+        }
+
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF({
+          orientation: "portrait",
+          unit: "pt",
+          format: "a4",
+        });
+
+        doc.setProperties({
+          title: file.name.replace(/\.docx$/i, ""),
+          subject: "Converted by SwiftPDF",
+          creator: "SwiftPDF",
+        });
+        drawWrappedText(doc, extractedText);
+
+        const pdfBlob = doc.output("blob");
+        if (pdfUrl) {
+          URL.revokeObjectURL(pdfUrl);
+        }
+        pdfUrl = URL.createObjectURL(pdfBlob);
+        downloadLink.href = pdfUrl;
+        downloadLink.download = file.name.replace(/\.docx$/i, "") + ".pdf";
+        pdfPreviewObject.data = pdfUrl;
+        downloadSection.style.display = "flex";
+        statusMessage.className = "result-box alert alert-success";
+        statusMessage.textContent = "Done! Your PDF is ready to preview or download.";
+      } catch (error) {
+        statusMessage.className = "result-box alert alert-danger";
+        statusMessage.textContent = "Could not convert this Word file. Please try another DOCX document.";
+      } finally {
+        convertBtn.disabled = false;
+      }
+    });
+
+    previewBtn.addEventListener("click", () => {
+      if (!pdfUrl) {
+        alert("Please convert a Word file first.");
+        return;
+      }
+      pdfPreviewObject.data = pdfUrl;
+      previewModal.show();
+    });
+
+    downloadLink.addEventListener("click", (e) => {
+      e.preventDefault();
+      downloadLink.style.display = "none";
+      const tempMsg = document.createElement("div");
+      tempMsg.className = "alert alert-info mt-2";
+      tempMsg.textContent = "Preparing download... Please wait 5 seconds.";
+      downloadSection.appendChild(tempMsg);
+      setTimeout(() => {
+        tempMsg.remove();
+        const tempLink = document.createElement("a");
+        tempLink.href = downloadLink.href;
+        tempLink.download = downloadLink.download;
+        document.body.appendChild(tempLink);
+        tempLink.click();
+        document.body.removeChild(tempLink);
+        downloadLink.style.display = "inline-block";
+      }, 5000);
+    });
+  </script>
+
+  <!-- Optional Bootstrap JS dependencies -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>
