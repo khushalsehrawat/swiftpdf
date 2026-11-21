@@ -259,3 +259,6 @@ Suggested starter tasks:
 
 ## Conclusion
 SwiftPDF delivers a fast, private, and elegant experience for common PDF tasks — all in the browser. The current capabilities cover the essentials (merge, split, watermark protect) with a clear path toward advanced tooling like compression, password protection, and signing. It’s easy to run, easy to host, and easy to extend.
+
+
+###### Develop & Maintained by - www.thebenzzcreations.com
